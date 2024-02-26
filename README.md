@@ -1,57 +1,58 @@
-# testing-101
+# Vue Testing 101
 
-This template should help get you started developing with Vue 3 in Vite.
+Nella repository sono presenti:
+- Pinia (State Manager), insieme a pinia/testing
+- axios (API)
+- vitest (test runner)
+- jsdom (environment per vitest)
+- cypress (e2e test)
 
-## Recommended IDE Setup
+Nel package.json sono presenti i comandi per unit test (tramite Vitest UI), coverage ed e2e.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Unit Test
+### Hello
+Un componente semplice con due ref:
+- msg
+- inputMsg
 
-## Customize configuration
+E' presente un h1 che stampa msg, un input con v-model su inputMsg e un pulsante. Al click sul pulsante msg viene valorizzato con inputMsg.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Testiamo che:
+- il componente viene renderizzato correttamente
+- al click sul pulsante cambia il testo nell'h1
 
-## Project Setup
+### Advanced
+Il componente renderizza un array di oggetti che rappresentano delle pagine della nostra webapp (N.B. non è presente vue router).
 
-```sh
-npm install
-```
+Riceve una prop isAuthenticated che, se true, renderizza un link aggiuntivo che porta sulla rotta /admin.
 
-### Compile and Hot-Reload for Development
+Testiamo che:
+- viene renderizzato il link homepage
+- non viene renderizzato, di default, il link verso /admin
+- se isAuthenticated è true, viene renderizzato il link verso /admin
 
-```sh
-npm run dev
-```
+### API
+Il componente APITest gestisce una chiamata verso PokeAPI. In particolare, gestisce l'offset che permette così di andare avanti e indietro con le pagine e visualizzare una lista di nomi di pokemon sempre diversa.
 
-### Compile and Minify for Production
+E' presente un watch che al cambio dell'offset effettua una nuova chiamata API con il valore aggiornato.
 
-```sh
-npm run build
-```
+Testiamo che:
+- Al mount del componente viene chiamato axios 1 sola volta e con l'url corretto
+- La lista di pokemon ha 15 elementi e il primo contiene come testo "bulbasaur"
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Store
+Lo store gestisce un counter, un valore massimo e una percentuale di completamento.
+In particolare, la percentuale è un computed basato su counter e max.
+La funzione increment aggiunge 1 al counter.
 
-```sh
-npm run test:unit
-```
+Testiamo che:
+- il counter in partenza è a 0
+- il counter cambia se chiamiamo increment()
+- la percentuale viene aggiornata correttamente
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+Testiamo anche un componente che utilizza lo store (ProgressTest). In particolare il componente mostra la percentuale e ha un pulsante che chiama la funzione increment dello store.
 
-```sh
-npm run test:e2e:dev
-```
+Testiamo che:
+- mostra la percentuale 0 all'avvio
+- al click sul pulsante viene chiamata la funzione increment dello store
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
