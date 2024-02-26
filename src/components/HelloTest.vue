@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const msg = ref("");
+const msg = ref("ciao");
 const inputMsg = ref("");
 </script>
 

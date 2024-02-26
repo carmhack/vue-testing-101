@@ -6,7 +6,7 @@ import HelloTest from '../HelloTest.vue'
 describe('HelloTest', () => {
   it('renders properly', () => {
     const wrapper = mount(HelloTest)
-    expect(wrapper.find('h1').exists()).toBeTruthy();
+    expect(wrapper.find('h1').text()).toEqual("ciao");
     expect(wrapper.find('input[type="text"]').exists()).toBeTruthy();
     expect(wrapper.find('button').exists()).toBeTruthy();
   })
